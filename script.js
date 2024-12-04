@@ -94,7 +94,7 @@ document.getElementById('signupForm').addEventListener('submit', event => {
 
 // تهيئة خريطة Mapbox
 function initMapbox() {
-    mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';  // ضع هنا مفتاح API الخاص بـ Mapbox
+    mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';  // ضع هنا مفتاح API الخاص بـ Mapbox
     const map = new mapboxgl.Map({
         container: 'map',  // العنصر الذي سيعرض فيه الخريطة
         style: 'mapbox://styles/mapbox/streets-v11',
