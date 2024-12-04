@@ -1,4 +1,4 @@
-// تأكد من تحميل كافة العناصر قبل تنفيذ السكربتات
+// التأكد من تحميل العناصر قبل تنفيذ السكربتات
 document.addEventListener("DOMContentLoaded", function () {
 
     // إعداد Firebase
@@ -125,4 +125,5 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+
 });
