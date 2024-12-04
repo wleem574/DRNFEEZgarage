@@ -3,65 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DRNFEEZgarage</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- إضافة مكتبة jQuery قبل FullCalendar -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- إضافة jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.js"></script> <!-- إضافة FullCalendar -->
-    <script src="https://cdn.jsdelivr.net/npm/push.js"></script> <!-- لإشعارات الـ Push -->
+    <title>صفحة مستودع GitHub</title>
+    <!-- تضمين ملف CSS (إذا كان موجودًا) -->
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/wleem574/DRNFEEZgarage/main/path/to/your/file.css">
 </head>
 <body>
-    <!-- رأس الصفحة -->
-    <header>
-        <div class="logo">
-            <h1>DRNFEEZgarage</h1>
-        </div>
-    </header>
+    <h1>مرحبا بك في صفحة مستودع GitHub!</h1>
 
-    <!-- قسم تخصيص واجهتك -->
-    <section id="customization">
-        <h2>تخصيص واجهتك</h2>
-        <form id="customization-form">
-            <label for="theme-color">اختر اللون الرئيسي:</label>
-            <input type="color" id="theme-color" value="#4CAF50">
+    <!-- تضمين ملف JavaScript -->
+    <script src="https://raw.githubusercontent.com/wleem574/DRNFEEZgarage/main/path/to/your/file.js"></script>
+</body>
+</html>
+    <title>تسجيل الدخول - طلب صيانة</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet" />
+</head>
+<body>
 
-            <label for="profile-pic">تحميل صورة الملف الشخصي:</label>
-            <input type="file" id="profile-pic">
+<!-- صفحة تسجيل الدخول -->
+<div class="container" id="login-container">
+    <h1>تسجيل الدخول</h1>
+    <form id="loginForm" class="form-container">
+        <label for="email">البريد الإلكتروني:</label>
+        <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" required>
+        
+        <label for="password">كلمة المرور:</label>
+        <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+        
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+    <div class="error" id="loginError"></div>
+    <a id="show-signup" onclick="toggleSignup()">ليس لديك حساب؟ سجل الآن</a>
+</div>
 
-            <button type="submit">حفظ التخصيصات</button>
-        </form>
-    </section>
+<!-- صفحة التسجيل -->
+<div class="container" id="signup-container" style="display: none;">
+    <h1>التسجيل</h1>
+    <form id="signupForm" class="form-container">
+        <label for="signupEmail">البريد الإلكتروني:</label>
+        <input type="email" id="signupEmail" placeholder="أدخل بريدك الإلكتروني" required>
+        
+        <label for="signupPassword">كلمة المرور:</label>
+        <input type="password" id="signupPassword" placeholder="أدخل كلمة المرور" required>
+        
+        <label for="phone">رقم الهاتف:</label>
+        <input type="text" id="phone" placeholder="أدخل رقم هاتفك" required>
+        
+        <button type="submit">إنشاء حساب</button>
+    </form>
+    <div class="error" id="signupError"></div>
+    <a id="show-login" onclick="toggleLogin()">لديك حساب؟ سجل الدخول</a>
+</div>
 
-    <!-- قسم المواعيد (التقويم) -->
-    <section id="appointments">
-        <h2>المواعيد</h2>
-        <div id="calendar"></div>
-    </section>
+<!-- صفحة طلب الصيانة -->
+<div class="container" id="maintenance-container" style="display: none;">
+    <h1>طلب صيانة موقعية</h1>
+    <div id="map"></div>
+    <form id="maintenanceForm">
+        <label for="location">الموقع:</label>
+        <input type="text" id="location" name="location" readonly>
+        
+        <label for="issue">المشكلة:</label>
+        <textarea id="issue" rows="4" placeholder="وصف المشكلة هنا..."></textarea>
+        
+        <button type="submit">إرسال الطلب</button>
+    </form>
+    <button id="logout">تسجيل الخروج</button>
+</div>
 
-    <!-- قسم التقييمات -->
-    <section id="feedback">
-        <h2>التقييمات</h2>
-        <div class="feedback-form">
-            <textarea id="feedback-text" placeholder="اكتب ملاحظاتك هنا..."></textarea>
-            <button onclick="submitFeedback()">إرسال التقييم</button>
-        </div>
-    </section>
-
-    <!-- قسم إدارة المخزون -->
-    <section id="inventory">
-        <h2>إدارة المخزون</h2>
-        <ul id="inventory-list">
-            <!-- سيتم تحميل القطع هنا -->
-        </ul>
-    </section>
-
-    <!-- قسم تغيير اللغة -->
-    <section id="language-selector">
-        <h2>اختر اللغة</h2>
-        <button onclick="setLanguage('ar')">العربية</button>
-        <button onclick="setLanguage('en')">English</button>
-    </section>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
