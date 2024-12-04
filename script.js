@@ -1,26 +1,15 @@
-// دالة تغيير العرض بين صفحة التسجيل وتسجيل الدخول
-function toggleSignup() {
-    document.getElementById('login-container').style.display = 'none';
-    document.getElementById('signup-container').style.display = 'block';
-}
-
-function toggleLogin() {
-    document.getElementById('signup-container').style.display = 'none';
-    document.getElementById('login-container').style.display = 'block';
-}
-
 // إعداد Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
-  authDomain: "drnfeez-c4037.firebaseapp.com",
-  databaseURL: "https://drnfeez-c4037-default-rtdb.firebaseio.com",
-  projectId: "drnfeez-c4037",
-  storageBucket: "drnfeez-c4037.firebasestorage.app",
-  messagingSenderId: "912450814298",
-  appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
+    apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
+    authDomain: "drnfeez-c4037.firebaseapp.com",
+    databaseURL: "https://drnfeez-c4037-default-rtdb.firebaseio.com",
+    projectId: "drnfeez-c4037",
+    storageBucket: "drnfeez-c4037.firebasestorage.app",
+    messagingSenderId: "912450814298",
+    appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
 };
 
-// تهيئة تطبيق Firebase
+// تهيئة Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database();
@@ -39,18 +28,35 @@ auth.onAuthStateChanged(user => {
     }
 });
 
+// إظهار/إخفاء كلمة المرور
+const togglePassword = document.getElementById('togglePassword');
+const passwordField = document.getElementById('password');
+togglePassword.addEventListener('click', () => {
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+    } else {
+        passwordField.type = "password";
+    }
+});
+
 // تسجيل الدخول
 document.getElementById('loginForm').addEventListener('submit', event => {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
+    if (!email || !password) {
+        document.getElementById('loginError').textContent = 'يرجى إدخال جميع الحقول!';
+        return;
+    }
+
     auth.signInWithEmailAndPassword(email, password)
         .then(() => {
             document.getElementById('loginError').textContent = '';  // مسح أي خطأ
+            alert('تم تسجيل الدخول بنجاح!');
         })
         .catch(error => {
-            document.getElementById('loginError').textContent = error.message;  // عرض الخطأ
+            document.getElementById('loginError').textContent = error.message;
         });
 });
 
@@ -72,11 +78,47 @@ document.getElementById('signupForm').addEventListener('submit', event => {
     const password = document.getElementById('signupPassword').value;
     const phone = document.getElementById('phone').value;
 
+    if (!email || !password || !phone) {
+        document.getElementById('signupError').textContent = 'يرجى إدخال جميع الحقول!';
+        return;
+    }
+
     auth.createUserWithEmailAndPassword(email, password)
         .then(userCredential => {
             const user = userCredential.user;
-            // حفظ رقم الهاتف في قاعدة البيانات
             database.ref('users/' + user.uid).set({
                 phone: phone
             }).then(() => {
-                document.getElementById('
+                document.getElementById('signupError').textContent = '';
+                document.getElementById('signup-container').style.display = 'none';
+                document.getElementById('maintenance-container').style.display = 'block';
+                alert("تم إنشاء الحساب بنجاح!");
+            });
+        })
+        .catch(error => {
+            document.getElementById('signupError').textContent = error.message;
+        });
+});
+
+// تهيئة خريطة Mapbox باستخدام الموقع الحالي
+function initMapbox() {
+    mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [31.2357, 30.0444], // الموقع الافتراضي (القاهرة)
+        zoom: 12
+    });
+
+    // الحصول على الموقع الجغرافي للمستخدم
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+            map.setCenter([userLng, userLat]);
+            new mapboxgl.Marker()
+                .setLngLat([userLng, userLat])
+                .addTo(map);
+        });
+    }
+}
