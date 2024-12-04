@@ -1,38 +1,45 @@
-/* ستايل الصفحة بشكل عام */
+/* إعدادات الخطوط والتصميم العام */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
 }
 
 h1 {
-    text-align: center;
     color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* استايل الحاويات */
+/* تصميم الحاويات */
 .container {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 500px;
+    margin: 30px auto;
     padding: 20px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
 }
 
-.form-container input,
-.form-container textarea {
+/* تصميم الحقول */
+input, textarea {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+    margin: 10px 0;
+    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
 }
 
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* تصميم الأزرار */
 button {
     background-color: #4CAF50;
     color: white;
@@ -41,16 +48,11 @@ button {
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
     background-color: #45a049;
-}
-
-/* الأخطاء */
-.error {
-    color: red;
-    margin-bottom: 15px;
 }
 
 /* روابط التحويل بين النماذج */
@@ -62,9 +64,39 @@ a {
     text-decoration: none;
 }
 
-/* خريطة Mapbox */
+a:hover {
+    text-decoration: underline;
+}
+
+/* إضافة تأثيرات للانتقال بين النماذج */
+.container {
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: all 0.5s ease-in-out;
+}
+
+.container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* رسائل الخطأ */
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+/* الخريطة */
 #map {
     width: 100%;
-    height: 300px;
-    margin-bottom: 15px;
+    height: 400px;
+    margin-bottom: 20px;
+}
+
+/* تأثير إظهار/إخفاء كلمة المرور */
+#togglePassword {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4CAF50;
 }
