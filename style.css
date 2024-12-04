@@ -1,98 +1,150 @@
-// تخصيص واجهة المستخدم
-document.getElementById('customization-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const themeColor = document.getElementById('theme-color').value;
-    const profilePic = document.getElementById('profile-pic').files[0];
+body {
+    font-family: 'Arial', sans-serif;
+    direction: rtl;
+    text-align: right;
+    background: linear-gradient(135deg, #6b00b6, #ff2a68);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    // تغيير اللون الرئيسي للواجهة
-    document.body.style.setProperty('--theme-color', themeColor);
+.container {
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
 
-    if (profilePic) {
-        // تحميل صورة الملف الشخصي
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const imageUrl = event.target.result;
-            document.getElementById('profile-image').src = imageUrl;
-        }
-        reader.readAsDataURL(profilePic);
+h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #ff2a68;
+    animation: fadeIn 1s ease-in-out;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, button, textarea {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+input:focus, button:focus, textarea:focus {
+    border-color: #ff2a68;
+    box-shadow: 0 0 8px rgba(255, 42, 104, 0.5);
+}
+
+button {
+    background-color: #ff2a68;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e0245b;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.error {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container a {
+    text-align: center;
+    margin-top: 10px;
+    color: #ff2a68;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.form-container a:hover {
+    color: #e0245b;
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin-top: 20px;
     }
-});
 
-// إعداد تقويم المواعيد باستخدام FullCalendar
-$(document).ready(function() {
-    $('#calendar').fullCalendar({
-        events: [
-            {
-                title: 'صيانة زيت المحرك',
-                start: '2024-12-05T10:00:00',
-                end: '2024-12-05T12:00:00'
-            }
-        ],
-        editable: true,
-        droppable: true
-    });
-});
+    h1 {
+        font-size: 24px;
+    }
 
-// إرسال التقييمات
-function submitFeedback() {
-    const feedback = document.getElementById("feedback-text").value;
-    if (feedback) {
-        alert("شكراً على تقييمك: " + feedback);
-    } else {
-        alert("يرجى إدخال تقييمك أولاً.");
+    label, input, button {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 12px;
+    }
+
+    #map {
+        height: 300px;
     }
 }
 
-// إدارة المخزون
-const inventoryData = [
-    { part: 'فلتر زيت', quantity: 5 },
-    { part: 'إطارات', quantity: 2 },
-    { part: 'مستشعر المحرك', quantity: 0 }
-];
-
-function displayInventory() {
-    const inventoryList = document.getElementById('inventory-list');
-    inventoryList.innerHTML = "";
-
-    inventoryData.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.innerText = `${item.part}: ${item.quantity}`;
-        if (item.quantity <= 3) {
-            listItem.classList.add('low-stock'); // تنبيه للمخزون المنخفض
-        }
-        inventoryList.appendChild(listItem);
-    });
-}
-
-displayInventory();
-
-// دعم اللغة
-const translations = {
-    en: {
-        welcome: "Welcome to DRNFEEZgarage",
-        feedback: "Feedback"
-    },
-    ar: {
-        welcome: "مرحبًا في DRNFEEZgarage",
-        feedback: "التقييم"
+@media (max-width: 480px) {
+    label, input, button {
+        font-size: 12px;
+        padding: 10px;
     }
-};
 
-function setLanguage(lang) {
-    document.getElementById('home').querySelector('h2').innerText = translations[lang]["welcome"];
-    document.getElementById('feedback').querySelector('h2').innerText = translations[lang]["feedback"];
+    #map {
+        height: 250px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
 }
 
-// نظام Push Notifications
-function sendNotification() {
-    Push.create("إشعار جديد", {
-        body: "تم إضافة موعد جديد لصيانة سيارتك.",
-        icon: '/path/to/icon.png',
-        timeout: 4000,
-        onClick: function() {
-            window.location.href = '/appointments';
-        }
-    });
+/* تأثيرات النص */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-
-setTimeout(sendNotification, 5000); // ارسال اشعار بعد 5 ثواني
