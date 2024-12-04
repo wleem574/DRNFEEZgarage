@@ -17,13 +17,11 @@ const database = firebase.database();
 // التحقق من حالة تسجيل الدخول
 auth.onAuthStateChanged(user => {
     if (user) {
-        // عرض صفحة طلب الصيانة وإخفاء صفحات تسجيل الدخول والتسجيل
         document.getElementById('login-container').style.display = 'none';
         document.getElementById('signup-container').style.display = 'none';
         document.getElementById('maintenance-container').style.display = 'block';
-        initMapbox();  // تهيئة الخريطة
+        initMapbox();
     } else {
-        // عرض صفحة تسجيل الدخول وإخفاء صفحات أخرى
         document.getElementById('login-container').style.display = 'block';
         document.getElementById('signup-container').style.display = 'none';
         document.getElementById('maintenance-container').style.display = 'none';
@@ -49,10 +47,11 @@ document.getElementById('loginForm').addEventListener('submit', event => {
 
     auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-            document.getElementById('loginError').textContent = '';  // مسح أي خطأ
+            document.getElementById('loginError').textContent = ''; 
         })
         .catch(error => {
-            document.getElementById('loginError').textContent = error.message;  // عرض الخطأ
+            document.getElementById('loginError').textContent = error.message;
+            showToast(error.message);  // إظهار التنبيه
         });
 });
 
@@ -74,36 +73,56 @@ document.getElementById('signupForm').addEventListener('submit', event => {
     const password = document.getElementById('signupPassword').value;
     const phone = document.getElementById('phone').value;
 
+    if (!validatePhoneNumber(phone)) {
+        document.getElementById('signupError').textContent = 'رقم الهاتف غير صالح';
+        return;
+    }
+
     auth.createUserWithEmailAndPassword(email, password)
         .then(userCredential => {
             const user = userCredential.user;
-            // حفظ رقم الهاتف في قاعدة البيانات
-            database.ref('users/' + user.uid).set({
-                phone: phone
-            }).then(() => {
-                document.getElementById('signupError').textContent = '';  // مسح أي خطأ
-                document.getElementById('signup-container').style.display = 'none';
-                document.getElementById('maintenance-container').style.display = 'block';
-                initMapbox();  // تهيئة الخريطة
-            });
+            database.ref('users/' + user.uid).set({ phone: phone })
+                .then(() => {
+                    document.getElementById('signupError').textContent = ''; 
+                    document.getElementById('signup-container').style.display = 'none';
+                    document.getElementById('maintenance-container').style.display = 'block';
+                    initMapbox();
+                });
         })
         .catch(error => {
-            document.getElementById('signupError').textContent = error.message;  // عرض الخطأ
+            document.getElementById('signupError').textContent = error.message;
+            showToast(error.message);  // إظهار التنبيه
         });
 });
 
-// تهيئة خريطة Mapbox
+// تحقق من صحة رقم الهاتف
+function validatePhoneNumber(phone) {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
+}
+
+// تهيئة الخريطة
 function initMapbox() {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';  // ضع هنا مفتاح API الخاص بـ Mapbox
+    mapboxgl.accessToken = 'your_mapbox_access_token_here';
     const map = new mapboxgl.Map({
-        container: 'map',  // العنصر الذي سيعرض فيه الخريطة
+        container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [31.2357, 30.0444],  // الإحداثيات المبدئية (القاهرة كمثال)
+        center: [31.2357, 30.0444],
         zoom: 12
     });
 
-    // إضافة علامة على الخريطة (اختياري)
     new mapboxgl.Marker()
-        .setLngLat([31.2357, 30.0444])  // الإحداثيات
+        .setLngLat([31.2357, 30.0444])
         .addTo(map);
+}
+
+// عرض تنبيه
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
 }
