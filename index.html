@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRNFEEZgarage</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/push.js"></script> <!-- لإشعارات الـ Push -->
+</head>
+<body>
+    <!-- رأس الصفحة -->
+    <header>
+        <div class="logo">
+            <h1>DRNFEEZgarage</h1>
+        </div>
+    </header>
+
+    <!-- قسم تخصيص واجهتك -->
+    <section id="customization">
+        <h2>تخصيص واجهتك</h2>
+        <form id="customization-form">
+            <label for="theme-color">اختر اللون الرئيسي:</label>
+            <input type="color" id="theme-color" value="#4CAF50">
+
+            <label for="profile-pic">تحميل صورة الملف الشخصي:</label>
+            <input type="file" id="profile-pic">
+
+            <button type="submit">حفظ التخصيصات</button>
+        </form>
+    </section>
+
+    <!-- قسم المواعيد (التقويم) -->
+    <section id="appointments">
+        <h2>المواعيد</h2>
+        <div id="calendar"></div>
+    </section>
+
+    <!-- قسم التقييمات -->
+    <section id="feedback">
+        <h2>التقييمات</h2>
+        <div class="feedback-form">
+            <textarea id="feedback-text" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+            <button onclick="submitFeedback()">إرسال التقييم</button>
+        </div>
+    </section>
+
+    <!-- قسم إدارة المخزون -->
+    <section id="inventory">
+        <h2>إدارة المخزون</h2>
+        <ul id="inventory-list">
+            <!-- سيتم تحميل القطع هنا -->
+        </ul>
+    </section>
+
+    <!-- قسم تغيير اللغة -->
+    <section id="language-selector">
+        <h2>اختر اللغة</h2>
+        <button onclick="setLanguage('ar')">العربية</button>
+        <button onclick="setLanguage('en')">English</button>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+// تخصيص واجهة المستخدم
+document.getElementById('customization-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const themeColor = document.getElementById('theme-color').value;
+    const profilePic = document.getElementById('profile-pic').files[0];
+
+    // تغيير اللون الرئيسي للواجهة
+    document.body.style.setProperty('--theme-color', themeColor);
+
+    if (profilePic) {
+        // تحميل صورة الملف الشخصي
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const imageUrl = event.target.result;
+            document.getElementById('profile-image').src = imageUrl;
+        }
+        reader.readAsDataURL(profilePic);
+    }
+});
+
+// إعداد تقويم المواعيد باستخدام FullCalendar
+$(document).ready(function() {
+    $('#calendar').fullCalendar({
+        events: [
+            {
+                title: 'صيانة زيت المحرك',
+                start: '2024-12-05T10:00:00',
+                end: '2024-12-05T12:00:00'
+            }
+        ],
+        editable: true,
+        droppable: true
+    });
+});
+
+// إرسال التقييمات
+function submitFeedback() {
+    const feedback = document.getElementById("feedback-text").value;
+    if (feedback) {
+        alert("شكراً على تقييمك: " + feedback);
+    } else {
+        alert("يرجى إدخال تقييمك أولاً.");
+    }
+}
+
+// إدارة المخزون
+const inventoryData = [
+    { part: 'فلتر زيت', quantity: 5 },
+    { part: 'إطارات', quantity: 2 },
+    { part: 'مستشعر المحرك', quantity: 0 }
+];
+
+function displayInventory() {
+    const inventoryList = document.getElementById('inventory-list');
+    inventoryList.innerHTML = "";
+
+    inventoryData.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.innerText = `${item.part}: ${item.quantity}`;
+        if (item.quantity <= 3) {
+            listItem.classList.add('low-stock'); // تنبيه للمخزون المنخفض
+        }
+        inventoryList.appendChild(listItem);
+    });
+}
+
+displayInventory();
+
+// دعم اللغة
+const translations = {
+    en: {
+        welcome: "Welcome to DRNFEEZgarage",
+        feedback: "Feedback"
+    },
+    ar: {
+        welcome: "مرحبًا في DRNFEEZgarage",
+        feedback: "التقييم"
+    }
+};
+
+function setLanguage(lang) {
+    document.getElementById('home').querySelector('h2').innerText = translations[lang]["welcome"];
+    document.getElementById('feedback').querySelector('h2').innerText = translations[lang]["feedback"];
+}
+
+// نظام Push Notifications
+function sendNotification() {
+    Push.create("إشعار جديد", {
+        body: "تم إضافة موعد جديد لصيانة سيارتك.",
+        icon: '/path/to/icon.png',
+        timeout: 4000,
+        onClick: function() {
+            window.location.href = '/appointments';
+        }
+    });
+}
+
+setTimeout(sendNotification, 5000); // ارسال اشعار بعد 5 ثواني
