@@ -1,12 +1,13 @@
 // إعداد Firebase
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
+  authDomain: "drnfeez-c4037.firebaseapp.com",
+  databaseURL: "https://drnfeez-c4037-default-rtdb.firebaseio.com",
+  projectId: "drnfeez-c4037",
+  storageBucket: "drnfeez-c4037.firebasestorage.app",
+  messagingSenderId: "912450814298",
+  appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
+};
 };
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
