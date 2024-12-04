@@ -1,6 +1,4 @@
-// التأكد من تحميل العناصر قبل تنفيذ السكربتات
 document.addEventListener("DOMContentLoaded", function () {
-
     // إعداد Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
@@ -30,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // دالة لتحويل بين صفحات التسجيل وتسجيل الدخول
+    // دالة لتبديل النماذج بين التسجيل وتسجيل الدخول
     window.toggleSignup = function () {
         document.getElementById('login-container').style.display = 'none';
         document.getElementById('signup-container').style.display = 'block';
@@ -125,5 +123,4 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-
 });
