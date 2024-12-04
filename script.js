@@ -1,3 +1,14 @@
+// دالة تغيير العرض بين صفحة التسجيل وتسجيل الدخول
+function toggleSignup() {
+    document.getElementById('login-container').style.display = 'none';
+    document.getElementById('signup-container').style.display = 'block';
+}
+
+function toggleLogin() {
+    document.getElementById('signup-container').style.display = 'none';
+    document.getElementById('login-container').style.display = 'block';
+}
+
 // إعداد Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
@@ -27,17 +38,6 @@ auth.onAuthStateChanged(user => {
         document.getElementById('maintenance-container').style.display = 'none';
     }
 });
-
-// تحويل بين نموذج تسجيل الدخول والتسجيل
-function toggleSignup() {
-    document.getElementById('login-container').style.display = 'none';
-    document.getElementById('signup-container').style.display = 'block';
-}
-
-function toggleLogin() {
-    document.getElementById('signup-container').style.display = 'none';
-    document.getElementById('login-container').style.display = 'block';
-}
 
 // تسجيل الدخول
 document.getElementById('loginForm').addEventListener('submit', event => {
@@ -79,24 +79,4 @@ document.getElementById('signupForm').addEventListener('submit', event => {
             database.ref('users/' + user.uid).set({
                 phone: phone
             }).then(() => {
-                document.getElementById('signupError').textContent = '';  // مسح أي خطأ
-                document.getElementById('signup-container').style.display = 'none';
-                document.getElementById('maintenance-container').style.display = 'block';
-                initMapbox();  // تهيئة الخريطة
-            });
-        })
-        .catch(error => {
-            document.getElementById('signupError').textContent = error.message;  // عرض الخطأ
-        });
-});
-
-// إعداد خريطة Mapbox
-function initMapbox() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYWRtaW4wNjciLCJhIjoiY2xhaWxlYzc5M2Y1b3F1ZzE0b2p2bDN2dyJ9.rTjjbASi78biOZyrtXyXdg';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [31.2357, 30.0444], // مكان افتراضي (الإحداثيات الخاصة بالقاهرة)
-        zoom: 12
-    });
-}
+                document.getElementById('
